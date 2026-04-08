@@ -40,7 +40,8 @@ if not exist .env (
     )
 )
 
-echo Instalando dependencias... (esto puede tardar unos minutos)
+echo Limpiando e instalando dependencias... (esto puede tardar unos minutos)
+if exist node_modules (rmdir /s /q node_modules)
 call pnpm install
 echo.
 echo [OK] Dependencias instaladas
