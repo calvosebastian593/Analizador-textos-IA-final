@@ -48,8 +48,7 @@ Thumbs.db
 .cache/
 .local/
 
-# Environment variables — NEVER commit this file
-.env
+# Environment variables
 .env.local
 .env.*.local
 attached_assets/

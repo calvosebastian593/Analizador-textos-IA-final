@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 title Analizador de Textos IA
 echo ============================================
 echo   Analizador de Textos IA - Instalacion
@@ -6,7 +7,7 @@ echo ============================================
 echo.
 
 where node >nul 2>nul
-if %errorlevel% neq 0 (
+if !errorlevel! neq 0 (
     echo [ERROR] Node.js no esta instalado.
     echo Descargalo aqui: https://nodejs.org/
     echo Instala la version LTS y vuelve a ejecutar este archivo.
@@ -19,7 +20,7 @@ echo [OK] Node.js encontrado
 echo.
 
 where pnpm >nul 2>nul
-if %errorlevel% neq 0 (
+if !errorlevel! neq 0 (
     echo Instalando pnpm...
     call npm install -g pnpm
     echo [OK] pnpm instalado
@@ -29,34 +30,58 @@ if %errorlevel% neq 0 (
 
 echo.
 
-if not exist .env (
-    echo ============================================
-    echo   Configuracion inicial
-    echo ============================================
-    echo.
-    echo Necesitas un token de Hugging Face [gratuito].
-    echo Si no tienes uno, crealo en:
-    echo https://huggingface.co/settings/tokens
-    echo [Tipo "Read"]
-    echo.
-    set /p "HF_TOKEN=Pega tu token de Hugging Face aqui: "
+if exist .env.ship (
+    if not exist .env (
+        rename .env.ship .env
+    ) else (
+        del .env.ship
+    )
 )
 
 if not exist .env (
+    echo HUGGINGFACE_API_KEY=>.env
+)
+
+set "TOKEN_OK=0"
+for /f "usebackq tokens=2 delims==" %%a in (".env") do (
+    set "VAL=%%a"
+    if defined VAL (
+        echo !VAL! | findstr /C:"hf_" >nul 2>nul
+        if !errorlevel! equ 0 set "TOKEN_OK=1"
+    )
+)
+
+if "!TOKEN_OK!"=="0" (
+    echo ============================================
+    echo   Configuracion del token
+    echo ============================================
+    echo.
+    echo No se encontro un token valido en el archivo .env
+    echo.
+    echo Puedes configurarlo de dos formas:
+    echo   1. Pegarlo aqui abajo
+    echo   2. Abrir el archivo .env con un editor y escribirlo manualmente
+    echo.
+    echo Si no tienes un token, crealo gratis en:
+    echo https://huggingface.co/settings/tokens [Tipo "Read"]
+    echo.
+    set /p "HF_TOKEN=Pega tu token de Hugging Face aqui: "
     if defined HF_TOKEN (
-        echo HUGGINGFACE_API_KEY=%HF_TOKEN%>.env
+        echo HUGGINGFACE_API_KEY=!HF_TOKEN!>.env
         echo.
-        echo [OK] Token guardado
+        echo [OK] Token guardado en .env
     ) else (
-        echo [ERROR] No se ingreso un token
+        echo.
+        echo [ERROR] No se ingreso ningun token.
+        echo Abre el archivo .env y pega tu token manualmente.
         echo.
         pause
         exit /b
     )
-) else (
-    echo [OK] Archivo .env encontrado
 )
 
+echo.
+echo [OK] Token de Hugging Face configurado
 echo.
 echo Instalando dependencias... [esto puede tardar unos minutos]
 if exist pnpm-lock.yaml del pnpm-lock.yaml
