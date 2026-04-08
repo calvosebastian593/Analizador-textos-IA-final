@@ -1,5 +1,15 @@
 # Analizador de Textos IA
 
+Aplicación web fullstack que analiza cualquier texto largo y devuelve:
+
+1. **Resumen** de máximo 2 oraciones.
+2. **Sentimiento** (Positivo / Negativo / Neutral) clasificado por BERT con score continuo.
+3. **Etiquetas temáticas** extraídas del contenido.
+
+Usa únicamente **Hugging Face** (API gratuita) como proveedor de IA.
+
+---
+
 ## Requisitos previos
 
 - **Node.js** versión 18 o superior → [Descargar aquí](https://nodejs.org/)
@@ -13,8 +23,8 @@
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <URL_DEL_REPO>
-cd <nombre-del-proyecto>
+git clone https://github.com/calvosebastian593/Analizador-textos-IA-final.git
+cd Analizador-textos-IA-final
 ```
 
 ### 2. Instalar dependencias
