@@ -23,22 +23,25 @@ Antes de empezar, asegúrate de tener instalado:
 
 ## Instalación paso a paso
 
-### 1. Abrir una terminal
+### 1. Descargar el proyecto
 
-- **Windows**: Busca "cmd" o "PowerShell" en el menú inicio
-- **Mac**: Abre la app "Terminal"
-- **Linux**: Abre la terminal de tu sistema
+**Opción A (más fácil): Descargar como ZIP**
 
-### 2. Clonar el repositorio
+1. Ve a: https://github.com/calvosebastian593/Analizador-textos-IA-final
+2. Haz clic en el botón verde **"<> Code"**
+3. Selecciona **"Download ZIP"**
+4. Descomprime el ZIP en la carpeta que quieras
 
-Esto descarga el proyecto de GitHub a tu computador. Ejecuta estos dos comandos:
+**Opción B: Clonar con Git** (si tienes Git instalado)
 
 ```bash
 git clone https://github.com/calvosebastian593/Analizador-textos-IA-final.git
-cd Analizador-textos-IA-final
 ```
 
-El primer comando descarga el proyecto. El segundo entra a la carpeta del proyecto.
+### 2. Abrir una terminal dentro del proyecto
+
+- **Windows**: Abre la carpeta del proyecto, haz clic en la barra de dirección del explorador, escribe `cmd` y presiona Enter
+- **Mac/Linux**: Abre la terminal y navega a la carpeta del proyecto con `cd ruta/de/la/carpeta`
 
 ### 3. Instalar dependencias
 
