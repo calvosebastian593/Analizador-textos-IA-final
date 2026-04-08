@@ -21,8 +21,9 @@ Instalar **Node.js** versión 18 o superior: https://nodejs.org/ (descargar la v
 1. Descargar el proyecto: botón verde **"<> Code"** → **"Download ZIP"** → descomprimir
 2. Obtener un token gratuito de Hugging Face: https://huggingface.co/settings/tokens (tipo "Read")
 3. Hacer doble clic en **`iniciar.bat`**
-4. La primera vez pedirá que configures tu token en el archivo `.env` — ábrelo con un editor de texto, pega tu token y vuelve a ejecutar `iniciar.bat`
-5. Abrir en el navegador: **http://localhost:5173**
+4. La primera vez pedirá que pegues tu token de Hugging Face directamente en la ventana
+5. Esperar a que se instalen las dependencias y se inicien los servidores
+6. Abrir en el navegador: **http://localhost:5173**
 
 ---
 

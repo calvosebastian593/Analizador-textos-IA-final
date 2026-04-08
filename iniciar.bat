@@ -28,16 +28,22 @@ if %errorlevel% neq 0 (
 echo.
 
 if not exist .env (
-    if exist .env.example (
-        copy .env.example .env >nul
-        echo [AVISO] Se creo el archivo .env desde .env.example
-        echo IMPORTANTE: Abre el archivo .env con un editor de texto
-        echo y reemplaza "tu_api_key_aqui" con tu token de Hugging Face.
-        echo Obten tu token en: https://huggingface.co/settings/tokens
-        echo.
-        pause
-        exit /b
-    )
+    echo ============================================
+    echo   Configuracion inicial
+    echo ============================================
+    echo.
+    echo Necesitas un token de Hugging Face (gratuito).
+    echo Si no tienes uno, crealo en:
+    echo https://huggingface.co/settings/tokens
+    echo (Tipo "Read")
+    echo.
+    set /p HF_TOKEN="Pega tu token de Hugging Face aqui: "
+    echo HUGGINGFACE_API_KEY=%HF_TOKEN%> .env
+    echo.
+    echo [OK] Token guardado
+    echo.
+) else (
+    echo [OK] Archivo .env encontrado
 )
 
 echo Instalando dependencias... (esto puede tardar unos minutos)
