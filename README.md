@@ -20,7 +20,7 @@ Instalar **Node.js** versión 18 o superior: https://nodejs.org/ (descargar la v
 
 1. Descargar el proyecto: botón verde **"<> Code"** → **"Download ZIP"** → descomprimir
 3. Configurar el token de una de estas dos formas (Dentro de la carpeta descomprimida):
-   - **Opción A**: Hacer doble clic en **`iniciar.bat`** y pegar el token cuando se lo requiera
+   - **Opción A (recomendada)**: Hacer doble clic en **`iniciar.bat`** y pegar el token cuando se lo requiera
    - **Opción B**: Abrir el archivo **`.env`** con un editor de texto y pegar el token manualmente siguiendo el formato del archivo **`.env_example`**
 5. Esperar a que se instalen las dependencias y se inicien los servidores
 6. Abrir en el navegador: **http://localhost:5173**
