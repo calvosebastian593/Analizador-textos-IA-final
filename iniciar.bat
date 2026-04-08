@@ -40,16 +40,17 @@ if not exist .env (
     )
 )
 
-echo Limpiando e instalando dependencias... (esto puede tardar unos minutos)
+echo Instalando dependencias... (esto puede tardar unos minutos)
+if exist pnpm-lock.yaml (del pnpm-lock.yaml)
 if exist node_modules (rmdir /s /q node_modules)
-call pnpm install
+call pnpm install --no-frozen-lockfile
 echo.
 echo [OK] Dependencias instaladas
 echo.
 echo ============================================
 echo   Iniciando la aplicacion...
-echo   Cuando veas "Server listening" y "Local:",
-echo   abre en tu navegador: http://localhost:5173
+echo   Espera a que ambas ventanas digan que estan listas.
+echo   Luego abre en tu navegador: http://localhost:5173
 echo ============================================
 echo.
 

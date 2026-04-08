@@ -53,3 +53,6 @@ Thumbs.db
 .env.local
 .env.*.local
 attached_assets/
+
+# Lock file (se regenera con pnpm install segun el sistema operativo)
+pnpm-lock.yaml
