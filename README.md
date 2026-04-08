@@ -12,58 +12,79 @@ Usa únicamente **Hugging Face** (API gratuita) como proveedor de IA.
 
 ## Requisitos previos
 
+Antes de empezar, asegúrate de tener instalado:
+
 - **Node.js** versión 18 o superior → [Descargar aquí](https://nodejs.org/)
-- **pnpm** → Instalar con: `npm install -g pnpm`
+- **pnpm** → Una vez tengas Node.js, abre una terminal y ejecuta: `npm install -g pnpm`
+- **Git** → [Descargar aquí](https://git-scm.com/downloads) (si no lo tienes)
 - **API Key de Hugging Face** (gratuita) → [Crear token aquí](https://huggingface.co/settings/tokens) (tipo "Read")
 
 ---
 
 ## Instalación paso a paso
 
-### 1. Clonar el repositorio
+### 1. Abrir una terminal
+
+- **Windows**: Busca "cmd" o "PowerShell" en el menú inicio
+- **Mac**: Abre la app "Terminal"
+- **Linux**: Abre la terminal de tu sistema
+
+### 2. Clonar el repositorio
+
+Esto descarga el proyecto de GitHub a tu computador. Ejecuta estos dos comandos:
 
 ```bash
 git clone https://github.com/calvosebastian593/Analizador-textos-IA-final.git
 cd Analizador-textos-IA-final
 ```
 
-### 2. Instalar dependencias
+El primer comando descarga el proyecto. El segundo entra a la carpeta del proyecto.
+
+### 3. Instalar dependencias
 
 ```bash
 pnpm install
 ```
 
-### 3. Configurar la API Key
+Esto instala todas las librerías necesarias. Puede tomar unos minutos.
 
-Copia el archivo de ejemplo y agrega tu clave:
+### 4. Configurar la API Key
+
+Crea el archivo de configuración copiando el ejemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-Abre `.env` con cualquier editor y reemplaza el valor:
+Abre el archivo `.env` con cualquier editor de texto (Notepad, VS Code, etc.) y reemplaza `tu_api_key_aqui` con tu token de Hugging Face:
 
 ```
 HUGGINGFACE_API_KEY=hf_tu_token_aqui
 ```
 
-### 4. Ejecutar la aplicación
+### 5. Ejecutar la aplicación
 
-Abre **dos terminales** en la raíz del proyecto:
+Necesitas abrir **dos terminales** (ambas dentro de la carpeta del proyecto):
 
-**Terminal 1** — Backend:
+**Terminal 1** — Inicia el backend:
 
 ```bash
 pnpm --filter @workspace/api-server run dev
 ```
 
-**Terminal 2** — Frontend:
+Espera a que diga "Server listening" y luego abre la segunda terminal.
+
+**Terminal 2** — Inicia el frontend:
 
 ```bash
 pnpm --filter @workspace/text-insight run dev
 ```
 
-### 5. Abrir en el navegador
+Espera a que diga "Local: http://localhost:5173".
+
+### 6. Abrir en el navegador
+
+Abre tu navegador (Chrome, Firefox, etc.) y ve a:
 
 ```
 http://localhost:5173
