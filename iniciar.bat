@@ -52,9 +52,9 @@ echo   abre en tu navegador: http://localhost:5173
 echo ============================================
 echo.
 
-start "Backend" cmd /c "pnpm --filter @workspace/api-server run dev"
-timeout /t 3 /nobreak >nul
-start "Frontend" cmd /c "pnpm --filter @workspace/text-insight run dev"
+start "Backend" cmd /k "pnpm --filter @workspace/api-server run dev"
+timeout /t 5 /nobreak >nul
+start "Frontend" cmd /k "pnpm --filter @workspace/text-insight run dev"
 
 echo.
 echo Las dos ventanas del servidor se abrieron.
