@@ -26,34 +26,6 @@ Instalar **Node.js** versión 18 o superior: https://nodejs.org/ (descargar la v
 4. Esperar a que se instalen las dependencias y se inicien los servidores
 5. Abrir en el navegador: **http://localhost:5173**
 
----
-
-## Ejecución (Mac / Linux)
-
-1. Descargar el proyecto y descomprimir
-2. Obtener un token gratuito de Hugging Face: https://huggingface.co/settings/tokens (tipo "Read")
-3. Abrir una terminal en la carpeta del proyecto
-4. Ejecutar:
-
-```bash
-npm install -g pnpm
-pnpm install
-```
-
-5. Abrir el archivo `.env` y pegar tu token de Hugging Face (ver `.env_example` como referencia)
-6. Iniciar los servidores en dos terminales:
-
-```bash
-# Terminal 1 (backend):
-pnpm --filter @workspace/api-server run dev
-
-# Terminal 2 (frontend):
-pnpm --filter @workspace/text-insight run dev
-```
-
-7. Abrir en el navegador: **http://localhost:5173**
-
----
 
 ## Uso
 
