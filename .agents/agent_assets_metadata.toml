@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "DLZ9NTBljZAV0hTqRd8He"
+uri = "file://NOTAS_DESARROLLO.md"
+type = "text"
+title = "Notas del Desarrollador - Resumen técnico y checklist de entrega"
+
+[[outputs]]
+id = "JWg9B1pLs6iCQrJ7WbInb"
+uri = "file://GUIA_EXPORTACION.md"
+type = "text"
+title = "Guía completa para exportar a GitHub"

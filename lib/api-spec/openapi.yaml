@@ -1,0 +1,172 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: analyze
+    description: Text analysis operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /analyze:
+    post:
+      operationId: analyzeText
+      tags: [analyze]
+      summary: Analyze text
+      description: Analyzes a text and returns summary, sentiment, and tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeRequest"
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyzeResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /models:
+    get:
+      operationId: getModels
+      tags: [analyze]
+      summary: Get available models
+      description: Returns the list of available AI models grouped by provider
+      responses:
+        "200":
+          description: Available models
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelsResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AnalyzeRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text to analyze
+        provider:
+          type: string
+          description: The AI provider to use
+          enum: [huggingface]
+        model:
+          type: string
+          description: The specific model to use
+      required:
+        - text
+        - provider
+        - model
+    AnalyzeResult:
+      type: object
+      properties:
+        summary:
+          type: string
+          description: A concise summary in maximum 2 sentences
+        sentiment:
+          type: string
+          description: Sentiment classification
+          enum: [Positivo, Negativo, Neutral]
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of topic tags extracted from the text
+        model:
+          type: string
+          description: The model used for analysis
+        provider:
+          type: string
+          description: The provider used for analysis
+        bertScore:
+          type: number
+          description: Puntuación continua BERT (escala 1.0 a 5.0, media ponderada)
+        bertMethod:
+          type: string
+          description: Método de análisis de sentimiento usado (bert o llm)
+      required:
+        - summary
+        - sentiment
+        - tags
+        - model
+        - provider
+    ModelsResponse:
+      type: object
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Provider"
+      required:
+        - providers
+    Provider:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModelOption"
+      required:
+        - id
+        - name
+        - models
+    ModelOption:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

@@ -1,0 +1,105 @@
+# Documentación Técnica — Analizador de Textos IA
+
+## Qué hace la aplicación
+
+Recibe cualquier texto largo y devuelve:
+1. **Resumen** de máximo 2 oraciones (generado por LLM).
+2. **Sentimiento** (Positivo / Negativo / Neutral) clasificado con BERT y score continuo.
+3. **Etiquetas temáticas** extraídas del texto.
+
+Todo funciona con una sola API key gratuita de Hugging Face.
+
+---
+
+## Estructura del proyecto
+
+```
+├── artifacts/
+│   ├── api-server/                  # Backend (Node.js + Express + TypeScript)
+│   │   └── src/
+│   │       ├── index.ts             # Punto de entrada, carga .env
+│   │       ├── lib/
+│   │       │   ├── bert.ts          # Sentimiento con BERT
+│   │       │   └── llm.ts          # Resumen y etiquetas con LLM
+│   │       └── routes/
+│   │           ├── analizar.ts      # Ruta POST /api/analyze
+│   │           └── health.ts        # Health check
+│   └── text-insight/                # Frontend (React + Vite + TypeScript)
+│       └── src/
+│           └── pages/Inicio.tsx     # Página principal
+├── lib/
+│   ├── api-spec/openapi.yaml       # Contrato OpenAPI
+│   ├── api-client-react/            # Hooks React (autogenerados)
+│   └── api-zod/                     # Schemas Zod (autogenerados)
+├── .env.example
+├── README.md
+└── DOCUMENTACION.md
+```
+
+---
+
+## Tecnologías
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | React, Vite, TypeScript, TailwindCSS, shadcn/ui, Framer Motion |
+| Backend | Node.js, Express 5, TypeScript |
+| Sentimiento | BERT (nlptown/bert-base-multilingual-uncased-sentiment) |
+| Resumen/Etiquetas | LLM via Hugging Face Inference API |
+| Validación | Zod (autogenerado desde OpenAPI con Orval) |
+| Monorepo | pnpm workspaces |
+
+---
+
+## Análisis de sentimiento con BERT
+
+Se usa el modelo `nlptown/bert-base-multilingual-uncased-sentiment` que devuelve probabilidades para 5 clases (1-5 estrellas).
+
+En lugar de tomar la clase más probable (argmax), se aplica **score continuo** (media ponderada):
+
+```
+S = 1 + Σ(i × pᵢ)   para i = 0..4
+```
+
+Mapeo del score:
+- `S ≤ 2.0` → Negativo
+- `S ≥ 4.0` → Positivo
+- Entre 2.0 y 4.0 → Neutral
+
+---
+
+## Modelos LLM disponibles
+
+| Modelo | Descripción |
+|---|---|
+| Qwen 2.5 72B Instruct | Mejor calidad (recomendado) |
+| Qwen 2.5 Coder 32B Instruct | Buena calidad, más rápido |
+| Llama 3.1 8B Instruct | Ligero, el más rápido |
+
+---
+
+## Flujo de una solicitud
+
+```
+1. Usuario pega texto y selecciona modelo → clic "Analizar texto"
+2. Frontend envía POST /api/analyze { text, provider: "huggingface", model }
+3. Backend valida: texto no vacío, >= 20 chars, modelo en lista permitida
+4. En paralelo:
+   a) LLM → genera resumen + etiquetas (JSON)
+   b) BERT → clasifica sentimiento con score continuo
+5. Backend combina resultados y responde
+6. Frontend muestra los resultados en 3 tarjetas
+```
+
+---
+
+## Seguridad y robustez
+
+- API key solo en `.env` (nunca expuesta al frontend).
+- `.env` excluido en `.gitignore`.
+- Validación de modelos: el backend rechaza modelos no permitidos (error 400).
+- Validación de texto: rechaza texto vacío o menor a 20 caracteres.
+- Timeout: 60s para LLM, 30s para BERT.
+- Si BERT falla, el sentimiento queda "Neutral" con `bertMethod: "fallback"` (no rompe la app).
+- El frontend muestra el mensaje de error real del backend.
+
