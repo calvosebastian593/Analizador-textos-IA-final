@@ -43,7 +43,9 @@ if not exist .env (
 echo Instalando dependencias... (esto puede tardar unos minutos)
 if exist pnpm-lock.yaml (del pnpm-lock.yaml)
 if exist node_modules (rmdir /s /q node_modules)
-call pnpm install --no-frozen-lockfile
+for /d %%i in (artifacts\*) do (if exist "%%i\node_modules" rmdir /s /q "%%i\node_modules")
+for /d %%i in (lib\*) do (if exist "%%i\node_modules" rmdir /s /q "%%i\node_modules")
+call pnpm install --no-frozen-lockfile --force
 echo.
 echo [OK] Dependencias instaladas
 echo.
