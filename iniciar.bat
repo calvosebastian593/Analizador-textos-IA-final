@@ -1,0 +1,64 @@
+@echo off
+echo ============================================
+echo   Analizador de Textos IA - Instalacion
+echo ============================================
+echo.
+
+where node >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [ERROR] Node.js no esta instalado.
+    echo Descargalo aqui: https://nodejs.org/
+    echo Instala la version LTS y vuelve a ejecutar este archivo.
+    pause
+    exit /b
+)
+
+echo [OK] Node.js encontrado
+echo.
+
+where pnpm >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Instalando pnpm...
+    call npm install -g pnpm
+    echo [OK] pnpm instalado
+) else (
+    echo [OK] pnpm encontrado
+)
+
+echo.
+
+if not exist .env (
+    if exist .env.example (
+        copy .env.example .env >nul
+        echo [AVISO] Se creo el archivo .env desde .env.example
+        echo IMPORTANTE: Abre el archivo .env con un editor de texto
+        echo y reemplaza "tu_api_key_aqui" con tu token de Hugging Face.
+        echo Obten tu token en: https://huggingface.co/settings/tokens
+        echo.
+        pause
+        exit /b
+    )
+)
+
+echo Instalando dependencias... (esto puede tardar unos minutos)
+call pnpm install
+echo.
+echo [OK] Dependencias instaladas
+echo.
+echo ============================================
+echo   Iniciando la aplicacion...
+echo   Cuando veas "Server listening" y "Local:",
+echo   abre en tu navegador: http://localhost:5173
+echo ============================================
+echo.
+
+start "Backend" cmd /c "pnpm --filter @workspace/api-server run dev"
+timeout /t 3 /nobreak >nul
+start "Frontend" cmd /c "pnpm --filter @workspace/text-insight run dev"
+
+echo.
+echo Las dos ventanas del servidor se abrieron.
+echo Abre en tu navegador: http://localhost:5173
+echo.
+echo Para detener la aplicacion, cierra las ventanas del servidor.
+pause
